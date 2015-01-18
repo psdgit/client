@@ -51,8 +51,9 @@ FolderMan* FolderMan::_instance = 0;
 static int msBetweenRequestAndSync = 2000;
 
 FolderMan::FolderMan(QObject *parent) :
-    QObject(parent),
-    _syncEnabled( true )
+    QObject(parent)
+  , _syncEnabled( true )
+  , _allPaused( false )
 {
     _folderChangeSignalMapper = new QSignalMapper(this);
     connect(_folderChangeSignalMapper, SIGNAL(mapped(const QString &)),
@@ -664,6 +665,21 @@ void FolderMan::slotFolderSyncFinished( const SyncResult& )
 
     QTimer::singleShot(200, this, SLOT(slotStartScheduledFolderSync()));
 }
+
+void FolderMan::slotSetAllPaused(bool paused)
+{
+    foreach (Folder *f, _folderMap.values()) {
+        f->slotTerminateSync();
+    }
+    setSyncEnabled(false);
+    _allPaused = paused;
+}
+
+bool FolderMan::isAllPaused() const
+{
+    return _allPaused;
+}
+
 
 bool FolderMan::addFolderDefinition(const QString& alias, const QString& sourceFolder,
                                     const QString& targetPath, const QStringList& selectiveSyncBlackList)

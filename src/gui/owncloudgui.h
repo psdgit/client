@@ -71,6 +71,7 @@ public slots:
     void slotOpenPath(const QString& path);
     void slotAccountStateChanged();
     void slotShowShareDialog(const QString &path);
+    void slotSetAllPaused(bool paused);
 
 private slots:
     void slotDisplayIdle();
@@ -98,6 +99,7 @@ private:
     QAction *_actionStatus;
     QAction *_actionEstimate;
     QAction *_actionRecent;
+    QAction *_actionPause;
     QAction *_actionHelp;
     QAction *_actionQuit;
     QAction *_actionCrash;
