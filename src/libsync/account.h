@@ -144,6 +144,9 @@ public:
     QVariant credentialSetting(const QString& key) const;
     void setCredentialSetting(const QString& key, const QVariant &value);
 
+    void setCapabilities(const QVariantMap &caps);
+    QVariantMap capabilities();
+
     void clearCookieJar();
 
     QNetworkAccessManager* networkAccessManager();
@@ -168,6 +171,7 @@ private:
     QUrl _url;
     QList<QSslCertificate> _approvedCerts;
     QSslConfiguration _sslConfiguration;
+    QVariantMap _capabilities;
     QScopedPointer<AbstractSslErrorHandler> _sslErrorHandler;
     QNetworkAccessManager *_am;
     AbstractCredentials* _credentials;
